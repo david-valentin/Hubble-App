@@ -69,7 +69,7 @@ export default class Login extends Component {
 
   onLoginButtonPress() {
     const { email, password } = this.state;
-    this.setState({error: '', loadingAccount: true});
+    this.setState({error: '', success: '', loadingAccount: true, accountExists : false, creatingNewAccount : false});
 
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(this.onAuthSuccess.bind(this))
@@ -96,7 +96,7 @@ export default class Login extends Component {
   onSignUpButtonPressed() {
     // implements firebase logic to sign up an account
     const { email, password } = this.state;
-    this.setState({error: '', creatingNewAccount : true});
+    this.setState({error: '', success: '', accountExists : false, creatingNewAccount : true});
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(this.onSignUpSuccess.bind(this))
@@ -104,21 +104,32 @@ export default class Login extends Component {
     );
   }
 
+  // function sleep(ms) {
+  //   return new Promise(resolve => setTimeout(resolve, ms));
+  // }
+  //
+  // async function demo() {
+  //   console.log('Taking a break...');
+  //   await sleep(2000);
+  //   console.log('Two second later');
+  // }
+
   onSignUpSuccess() {
       this.setState({
         email: '',
         password: '',
-        error: '',
+        success : 'Thanks for signing up with Hubble',
         creatingNewAccount: false,
-        success : 'Thanks for signing up with Hubble'
+        loadingAccount : false,
       });
   }
 
   onSignUpFailed() {
       this.setState({
           error: 'Account Exists Already',
-          accountExists : true,
+          accountExists : false,
           creatingNewAccount: false,
+          loadingAccount : false,
       });
   }
 
@@ -140,6 +151,9 @@ export default class Login extends Component {
 
   renderMessage() {
     const {errorMessage, successMessage } = styles;
+
+    console.log("The error message: " + errorMessage + ". The successMessage: " + successMessage)
+
     if (this.state.success) {
       return (
         <Text style={successMessage}>

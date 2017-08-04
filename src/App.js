@@ -15,9 +15,15 @@ import firebase from 'firebase';
 
 // Components:
 import Login from './components/Login';
+import Loader from './components/Loader';
+import PeopleList from './components/PeopleList';
+
 
 export default class App extends Component {
 
+  state = {
+    loggedIn : null
+  }
 
   componentWillMount() {
     firebase.initializeApp({
@@ -28,12 +34,31 @@ export default class App extends Component {
         storageBucket: "crmlinkedin2-358b9.appspot.com",
         messagingSenderId: "609238688785"
     });
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({loggedIn : true})
+      } else {
+        this.setState({loggedIn : false})
+      }
+    })
+  }
+
+  renderInitialView() {
+    switch(this.state.loggedIn) {
+      case true:
+        return <PeopleList/>;
+      case false:
+        return <Login />;
+      default :
+        return <Loader size = "large"/>;
+    }
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Login/>
+        {this.renderInitialView()}
       </View>
     );
   }
