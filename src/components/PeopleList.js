@@ -7,16 +7,52 @@
 import React, { Component } from 'react';
 import {
   Text,
-  View
-} from 'react-native';
+  View,
+  StyleSheet,
+  ListView
+ } from 'react-native';
+import { connect } from 'react-redux';
+import PersonItem from './PersonItem';
 
-export default class PeopleList extends Component {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: 353,
+    flexWrap: 'wrap',
+    paddingTop: 20,
+    paddingLeft: 20,
+  },
+});
+
+class PeopleList extends Component {
+
+  ComponentWillMount() {
+    // before the component mounts - will execute the code
+      const ds = new ListView.DataSource({
+        rowHasChanged : (r1, r2) => r1 !== r2
+      })
+
+      this.datasource = ds.cloneWithRows(this.props.people)
+  }
 
   render() {
     return (
-      <View>
-        <Text>People Info</Text>
+      <View style={styles.container}>
+        <ListView
+          enableEmptySections = {true}
+          dataSource = {this.datasource}
+          renderRow = {(rowData) => {
+            <PersonItem people = {rowData}/>
+          }}
+        />
+
       </View>
     );
   }
 }
+// map props to the state
+const mapStateToProps = (state) => {
+  return { people: state.people}
+}
+
+export default connect(mapStateToProps)(PeopleList);

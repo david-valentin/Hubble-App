@@ -14,15 +14,24 @@ import {
 import firebase from 'firebase';
 
 // Components:
-import Login from './components/Login';
-import Loader from './components/Loader';
-import PeopleList from './components/PeopleList';
+import Login from './Login';
+import Loader from './Loader';
+import PeopleList from './PeopleList';
 
+// React-redux imports:
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import reducers from '../reducers/PeopleReducer'
+
+
+// Runs the dev tool extension
+const store = createStore(
+  reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 export default class App extends Component {
 
   state = {
-    loggedIn : null
+    loggedIn : null,
   }
 
   componentWillMount() {
@@ -57,9 +66,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        {this.renderInitialView()}
-      </View>
+      <Provider store={store}>
+        <View style={styles.container}>
+          {this.renderInitialView()}
+        </View>
+      </Provider>
     );
   }
 }
