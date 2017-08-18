@@ -12,7 +12,7 @@ import {
   ListView
  } from 'react-native';
 import { connect } from 'react-redux';
-import PersonItem from './PersonItem';
+import PeopleItem from './PeopleItem';
 
 const styles = StyleSheet.create({
   container: {
@@ -42,7 +42,7 @@ class PeopleList extends Component {
           enableEmptySections = {true}
           dataSource = {this.datasource}
           renderRow = {(rowData) => {
-            <PersonItem people = {rowData}/>
+            <PeopleItem people = {rowData}/>
           }}
         />
 
