@@ -14,6 +14,9 @@ import {
 import { connect } from 'react-redux';
 import PeopleItem from './PeopleItem';
 
+import Icon from 'react-native-vector-icons/EvilIcons';
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -25,6 +28,13 @@ const styles = StyleSheet.create({
 });
 
 class PeopleList extends Component {
+
+  static navigationOptions = {
+      tabBarLabel : 'Details',
+      tabBarIcon : ({tintColor}) => (
+        <Icon name = {'user'} size={40} style={[{color: tintColor}, styles.icon]}/>
+      )
+  }
 
   componentWillMount() {
     // before the component mounts - will execute the code

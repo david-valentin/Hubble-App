@@ -17,6 +17,7 @@ import firebase from 'firebase';
 import Login from './Login';
 import Loader from './Loader';
 import PeopleList from './PeopleList';
+import Navigation from './Navigation';
 
 // React-redux imports:
 import {Provider} from 'react-redux';
@@ -33,6 +34,8 @@ export default class App extends Component {
   state = {
     loggedIn : null,
   }
+
+
 
   componentWillMount() {
     firebase.initializeApp({
@@ -56,7 +59,7 @@ export default class App extends Component {
   renderInitialView() {
     switch(this.state.loggedIn) {
       case true:
-        return <PeopleList />;
+        return <Navigation />;
       case false:
         return <Login />;
       default :
@@ -65,11 +68,10 @@ export default class App extends Component {
   }
 
   render() {
+
     return (
       <Provider store={store}>
-        <View style={styles.container}>
           {this.renderInitialView()}
-        </View>
       </Provider>
     );
   }

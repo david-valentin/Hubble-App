@@ -2,7 +2,7 @@ import people from './people.json';
 
 
 const initialState = {
-  people,
+  people
 };
 
 // add more reducers to the switch statement
