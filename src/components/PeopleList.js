@@ -26,33 +26,32 @@ const styles = StyleSheet.create({
 
 class PeopleList extends Component {
 
-  ComponentWillMount() {
+  componentWillMount() {
     // before the component mounts - will execute the code
       const ds = new ListView.DataSource({
-        rowHasChanged : (r1, r2) => r1 !== r2
+        rowHasChanged : (r1, r2) => r1 !== r2,
       })
-
-      this.datasource = ds.cloneWithRows(this.props.people)
+      this.dataSource = ds.cloneWithRows(this.props.people)
   }
 
   render() {
     return (
       <View style={styles.container}>
         <ListView
-          enableEmptySections = {true}
-          dataSource = {this.datasource}
-          renderRow = {(rowData) => {
-            <PeopleItem people = {rowData}/>
-          }}
+          enableEmptySections={true}
+          dataSource={this.dataSource}
+          renderRow={(rowData) =>
+            <PeopleItem people={rowData} />
+          }
         />
-
       </View>
     );
   }
 }
+
 // map props to the state
 const mapStateToProps = (state) => {
-  return { people: state.people}
-}
+  return { people: state.people }
+};
 
 export default connect(mapStateToProps)(PeopleList);

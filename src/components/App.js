@@ -56,7 +56,7 @@ export default class App extends Component {
   renderInitialView() {
     switch(this.state.loggedIn) {
       case true:
-        return <PeopleList/>;
+        return <PeopleList />;
       case false:
         return <Login />;
       default :
